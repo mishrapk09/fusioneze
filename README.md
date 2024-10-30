@@ -1,33 +1,3 @@
-# fusioneze
-# Let's delve deeper into your pipeline's Operator, Mapper and Aggregator stages.
-# An operator is a fundamental unit of processing in a data pipeline. It performs a specific task on the data, transforming it from one state to another. In your pipeline, you've already mentioned Mapper and Aggregator as operators.
-# Mapper Stage
-# Purpose: Typically, the Mapper stage is responsible for transforming each individual data item into a new format or extracting relevant information.
-# Common Tasks:
-# Data Enrichment: Adding additional context or details to each data item.
-# Data Cleaning: Correcting errors, inconsistencies, or missing values.
-# Data Normalization: Standardizing data formats or values.
-# Feature Engineering: Creating new features from existing ones to improve model performance.
-# Example: If your data is in a raw format, the Mapper might parse it into a structured format, extract specific fields, and apply necessary transformations.
-# 
-# Aggregator Stage
-# Purpose: The Aggregator stage combines multiple data items into a single aggregated value or summary.
-# Common Tasks:
-# Grouping: Grouping data based on specific criteria (e.g., time, category, user).
-# Aggregation Functions: Applying functions like SUM, COUNT, AVERAGE, MIN, MAX to calculate aggregated values.
-# Joining: Combining data from multiple sources based on common keys.
-# Example: If you have sales data for different products, the Aggregator might calculate the total sales for each product or the average sales per month.
-# 
-# Please provide more details about your specific use case so I can offer more tailored advice. For instance:
-# 
-# Data Source: Where is the data coming from (e.g., a database, file, API)?
-# Data Format: What is the structure or format of the data?
-# Mapper Tasks: What specific transformations or calculations does the Mapper need to perform?
-# Aggregator Tasks: What kind of aggregations or groupings do you want to apply?
-# Output: What is the desired output of the pipeline (e.g., a summary table, a visualization)?
-# With this information, I can help you refine the Mapper and Aggregator stages and ensure they effectively meet your pipeline's objectives.
-# 
-# Here is my pipeline : http://qa.app.fusionezee.com/workspace/db719712-7262-419c-9191-857dfeedfa41/pipeline-config/07c8253b-85d0-4a41-8271-1188ca23bbe4/pipeline
 #Source code:
 def main(input_param, options):
     a = input_param["firstName"]
