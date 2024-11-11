@@ -1,55 +1,65 @@
 #Source code:
 
-def main(input_param, options):
-    a = input_param["firstName"]
-    b = input_param["middleName"]
-    c = input_param["lastName"]
-    d = a + b + c
-    return Response.Success({"fullName": d});
+from difflib import get_close_matches
 
-    e = input_param["D.O.B"]
-    f = input_param["age"]
-    g = input_param["identityMark"]
-    return Response.Success({"identification": f"Born in {e}, and I'm {f} years old and I have {g}."})
 
-    h = input_param["fromCity"]
-    i = input_param["distt."]
-    j = input_param["state"]
-    return Response.Success({"address": f"from {h}, distt. {i}, {j}"})
+class Node:
+    def __init__(self, name, details):
+        self.name = name
+        self.details = details
 
-    k = input_param["fatherName"]
-    l = input_param["motherName"]
-    return Response.Success({"parents": f"son of Mr. {k} and Mrs. {l}"})
 
-    m = input_param["occupation"]
-    n = input_param["collegeName"]
-    o = input_param["city"]
-    return Response.Success({"work": f"I am {m} at {n}, {o}"})
+class AutoMapperPipeline:
+    def __init__(self, output_nodes):
+        # Store output nodes as a dictionary for easier lookup
+        self.output_data = {node.name: node.details for node in output_nodes}
 
-    p = input_param["course"]
-    q = input_param["school"]
-    r = input_param["specialization"]
-    return Response.Success({"education": f"course of {p}, school of {q}, with specialization in {r}"})
+    def get_closest_match(self, input_name, threshold=0.6):
+        """
+        Finds the closest match for an input node name in the output nodes.
+        If a match meets the threshold, returns the matched output node name and its details.
+        """
+        closest_matches = get_close_matches(input_name, self.output_data.keys(), n=1, cutoff=threshold)
 
-    u = input_param["internAt"]
-    return Response.Success({"internship": f"intern at {u}"})
+        if closest_matches:
+            closest_match = closest_matches[0]
+            return closest_match, self.output_data[closest_match]
+        else:
+            return None, "No similar variable found. Please check your input."
 
-    v = input_param["hobby"]
-    w = input_param["favouriteColour"]
-    x = input_param["favouriteFood"]
-    y = input_param["favouriteBook"]
-    z = input_param["favouritePlace"]
-    return Response.Success({
-                                "interests": f"hobby is {v}, favouriteColour is {w}, favouriteFood is {x}, favouriteBook is {y}, favouritePlace is {z}"})
+    def map_single_node(self, input_name, threshold=0.6):
+        """
+        Maps a single input node to the closest matching output node.
+        Returns the matched name and details.
+        """
+        match, details = self.get_closest_match(input_name, threshold)
+        if match:
+            print(f"Did you mean '{match}'? Details: {details}")
+        else:
+            print("No suitable match found. Please try again.")
 
-    ab = input_param["friend1"]
-    bc = input_param["friend2"]
-    cd = input_param["friend3"]
-    return Response.Success({"friends": f"my friends are {ab}, {bc}, {cd}"})
 
-    de = input_param["achievement1"]
-    ef = input_param["achievement2"]
-    fg = input_param["achievement3"]
-    return Response.Success({"achievements": f"my achievements are {de}, {ef}, {fg}"})
+# Example usage
+if __name__ == "__main__":
+    # Define output nodes with names and details
+    output_nodes = [
+        Node("FirstName", "Prashant"),
+        Node("MiddleName", "Kumar"),
+        Node("LastName","Mishra"),
+        Node("E mail", "pk200130@gmail.com"),
+        Node("phone no.", "9479391901"),
+        Node("D.O.B","30-09-2002."),
+        Node("Age", "22"),
+        Node("Intern at", "Fusion eze"),
+        Node("studying at","VIT Bhopal"),
+    ]
 
-    return Response.Error('ERLX002', 'ErrorMessage', 'ErrorDetails');
+    # Initialize the pipeline with output nodes
+    pipeline = AutoMapperPipeline(output_nodes)
+
+    # Loop to take multiple user inputs
+    while True:
+        input_name = input("Enter a variable name to get details (or type 'exit' to quit): ")
+        if input_name.lower() == 'exit':
+            break
+        pipeline.map_single_node(input_name, threshold=0.6)
